@@ -32,42 +32,31 @@ void getSales(int sale[], string name[], int size) {
 
 
 
-void findHighest(int sale[], string name[], int size) {
-  int highest = sale[0];
-  int highestIndex = 0;
+void findExtreme(int sale[], string name[], int size) {
+  int highest = sale[0], lowest = sale[0];
+  int highestIndex = 0, lowestIndex = 0;
   for (int count = 0; count < size; count++) {
-    if ( highest < sale[count]) {
+    if (sale[count] > highest) {
       highest = sale[count];
       highestIndex = count;
+	}
+	if (sale[count] < lowest) {
+		lowest = sale[count];
+		lowestIndex = count;
+	} 
     }
-  }
   cout << name[highestIndex] << " salsa has the highest sale among the others.\n";
-}
-
-
-
-void findLowest(int sale[], string name[], int size) {
-  int lowest = sale[0];
-  int lowestIndex = 0;
-  for (int count = 0; count < size; count++) {
-    if ( lowest > sale[count]) {
-      lowest = sale[count];
-      lowestIndex = count;
-    }
-  }
   cout << name[lowestIndex] << " salsa has the lowest sale among the others.\n";
 }
 
 
-
 void  displayReport(int sale[], string name[], int size) {
-  cout << endl << setw(15) << left << "Sale Name" << "Sale" << endl;
+  cout << endl << setw(30) << left << "Salsa Name" << setw(10) << left << "Sale" << endl;
   for (int count = 0; count < size; count++) {
-    cout << setw(15) << left << name[count] << sale[count] << endl; 
+    cout << setw(30) << left << name[count] << setw(10) << left << sale[count] << endl; 
   }
-
-  findLowest(sale, name, size);
-  findHighest(sale, name, size); 
+  cout << endl;
+  findExtreme(sale, name, size);
 }
 
 
