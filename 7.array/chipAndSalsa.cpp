@@ -12,17 +12,17 @@ using namespace std;
 
 const int SIZE = 5;
 
-
 void getSales(int sale[], string name[], int size) {
-  for (int count = 0; count < SIZE; count++) {
+  for (int type = 0; type < SIZE; type++) {
     do {
-      cout << "Enter sale for " << name[count] << " salsa: ";
-      if (!(cin >> sale[count])) {
+      cout << "Enter sale for " << name[type] << " salsa: ";
+      if (!(cin >> sale[type])) {
         cout << "Please enter integer only.\n";
         cin.clear();
         cin.ignore(1000, '\n');
-      } else if (sale[count] < 0) {
+      } else if (sale[type] < 0) {
         cout << "Number of jar sold can not be negative.\n";
+		cout << "Please re-enter number of jars sold.\n";
       } else {
         break;
       }
@@ -30,32 +30,44 @@ void getSales(int sale[], string name[], int size) {
   }
 }
 
-
-
 void findExtreme(int sale[], string name[], int size) {
-  int highest = sale[0], lowest = sale[0];
-  int highestIndex = 0, lowestIndex = 0;
-  for (int count = 0; count < size; count++) {
-    if (sale[count] > highest) {
-      highest = sale[count];
-      highestIndex = count;
+  int highest = sale[0];
+  int lowest = sale[0];
+  int highestIndex = 0;
+  int lowestIndex = 0;
+  for (int pos = 0; pos < size; pos++) {
+    if (sale[pos] > highest) {
+      highest = sale[pos];
+      highestIndex = pos;
 	}
-	if (sale[count] < lowest) {
-		lowest = sale[count];
-		lowestIndex = count;
+	if (sale[pos] < lowest) {
+		lowest = sale[pos];
+		lowestIndex = pos;
 	} 
     }
-  cout << name[highestIndex] << " salsa has the highest sale among the others.\n";
-  cout << name[lowestIndex] << " salsa has the lowest sale among the others.\n";
+  cout << "Highest sale: " << name[highestIndex] << endl;
+  cout << "Lowest sale: " << name[lowestIndex] << endl;
 }
 
+void findTotal(int sale[], int size) {
+	int total = 0;
+	for (int pos = 0; pos < size; pos++) {
+		total += sale[pos];
+	}
+	cout << "Total jars sold: " << total << endl;
+}
 
 void  displayReport(int sale[], string name[], int size) {
-  cout << endl << setw(30) << left << "Salsa Name" << setw(10) << left << "Sale" << endl;
-  for (int count = 0; count < size; count++) {
-    cout << setw(30) << left << name[count] << setw(10) << left << sale[count] << endl; 
+  cout << endl;
+  cout << "          Salsa Sales Report          ";
+  cout << endl << setw(30) << left << "Salsa Name" << "Jars sold" << endl;
+  cout <<"________________________________\n";
+  
+  for (int pos = 0; pos < size; pos++) {
+    cout << setw(30) << left << name[pos] << sale[pos] << endl; 
   }
   cout << endl;
+  findTotal(sale, size);
   findExtreme(sale, name, size);
 }
 
@@ -66,8 +78,10 @@ int main() {
   string salsaNames[SIZE] = {"Mild", "Medium", "Sweet", "Hot", "Zesty"};
   int salsaSales[SIZE];
   
+  // get number of jars sold for each type of salsa
   getSales(salsaSales, salsaNames, SIZE);
   
+  // display report, which incude sale for each salsa type, highest and lowest salsa 
   displayReport(salsaSales, salsaNames, SIZE);
 
   return 0;
