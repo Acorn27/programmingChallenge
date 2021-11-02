@@ -6,9 +6,9 @@ This program should ask user to enter file anme. Then display:
 */
 
 #include <iostream>
-#include <iomanip>
 #include <fstream>
 #include <vector>
+#include <numeric>
 using namespace std;
 
 void retrieveData(vector<int>&, string);
@@ -18,12 +18,12 @@ int returnTotal(vector<int>);
 int returnAverage(vector<int>);
 
 int main() {
-
+  
+	// prompt for file's name and retrieve data from that file into numberList vector
   vector <int> numberList;
   string fileName;
   cout << "Enter file's name: ";
   cin >> fileName;
-
   retrieveData(numberList, fileName);
 
   int highest = returnHighest(numberList);
@@ -74,20 +74,14 @@ int returnLowest(vector<int> vector) {
 
 int returnTotal(vector<int> vector) {
   int size = vector.size();
-  int total = 0;
-  for (int index = 0; index < size; index++) {
-    total += vector[index];
-  }
+  int total = accumulate(vector.begin(), vector.end(),0.0);
   return (total);
 }
 
 int returnAverage(vector<int> vector) {
   int size = vector.size();
-  int total = 0;
-  for (int index = 0; index < size; index++) {
-    total += vector[index];
-  }
-  return (total / size);
+  int average = accumulate(vector.begin(),vector.end(),0.0) / size;
+  return (average);
 
 }
 
