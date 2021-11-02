@@ -15,60 +15,49 @@ using namespace std;
 
 const int NUMBER_OF_MONTHS = 3,
           NUMBER_OF_DAYS = 30;
+					
+const string monthName[3] = {"June", "July", "August"};
 
-void retrieveData(char[][NUMBER_OF_DAYS]);
-void displayStats(char[][NUMBER_OF_DAYS], string);
+void retrieveData(char[][NUMBER_OF_DAYS], string);
+void displayStats(char[][NUMBER_OF_DAYS], int);
 void displayStatWholePeriod(char[][NUMBER_OF_DAYS]);
 void compareRainnyDay(char[][NUMBER_OF_DAYS]);
 
-ifstream inputFile("RainOrShine.txt");
-
 int main(){
-  // create 2 dimension array to store weather information
+  // 2 dimensional array: row to store number of months, column to store number of days
   char weatherRecord[NUMBER_OF_MONTHS][NUMBER_OF_DAYS];
 
-  // retrieve data from file to inputFile
-  retrieveData(weatherRecord);
+  // get data from file
+  retrieveData(weatherRecord,"RainOrShine.txt");
 
   //display june, july, august statistic
-  displayStats(weatherRecord, "June");
-	displayStats(weatherRecord, "July");
-	displayStats(weatherRecord, "Agust");
+  displayStats(weatherRecord, 0);
+	displayStats(weatherRecord, 1);
+	displayStats(weatherRecord, 2);
 	displayStatWholePeriod(weatherRecord);
 
   // display the month that has most rainny days
 	compareRainnyDay(weatherRecord);
 	
-	
-  // notify and terminate program
-  inputFile.close();
   cout << "\nDone\n";
  return 0;
 }
 
-void retrieveData(char array[NUMBER_OF_MONTHS][NUMBER_OF_DAYS]) {
-  char byte = 0;
+void retrieveData(char array[NUMBER_OF_MONTHS][NUMBER_OF_DAYS], string fileName) {
+  ifstream inputFile(fileName);
   for (int month = 0; month < NUMBER_OF_MONTHS; month++) {
     for (int day = 0; day < NUMBER_OF_DAYS; day++) {
-      inputFile.get(byte);
-			if (byte == '\n') {inputFile.get(byte);}
-      array[month][day] = byte;
+	    inputFile >> array[month][day];
     }
-  } 
+  }
+  inputFile.close();	
 }
 
-void displayStats(char array[NUMBER_OF_MONTHS][NUMBER_OF_DAYS],string monthName) {
+void displayStats(char array[NUMBER_OF_MONTHS][NUMBER_OF_DAYS], int index) {
 	int rainnyDay = 0,
 	    cloudyDay = 0,
 			sunnyDay = 0;
 	int index;
-	if (monthName == "June") {
-		index = 0;
-	} else if (monthName == "July") {
-		index = 1;
-	} else {
-		index = 2;
-	}
   for (int day = 0; day < NUMBER_OF_DAYS; day++) {
     if (array[index][day] == 'R') {
 			rainnyDay++;
@@ -80,9 +69,9 @@ void displayStats(char array[NUMBER_OF_MONTHS][NUMBER_OF_DAYS],string monthName)
 	}
 	
 	// display stat
-	cout << "Rainy days in " << monthName << ": " << rainnyDay << endl;
-  cout << "cloudy days in " << monthName << ": " << cloudyDay << endl;
-	cout << "Sunny days in " << monthName << ": " << sunnyDay << endl << endl;
+	cout << "Rainy days in " << monthName[index] << ": " << rainnyDay << endl;
+  cout << "cloudy days in " << monthName[index] << ": " << cloudyDay << endl;
+	cout << "Sunny days in " << monthName[index] << ": " << sunnyDay << endl << endl;
 }
 
 void displayStatWholePeriod(char array[NUMBER_OF_MONTHS][NUMBER_OF_DAYS]) {
