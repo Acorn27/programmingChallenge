@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/28574346/find-average-of-input-to-vector-c
