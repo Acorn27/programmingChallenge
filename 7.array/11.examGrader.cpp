@@ -12,8 +12,8 @@ This program grades final exam. It will do the following task:
  #include <vector>
  using namespace std;
  
- const string ANSWER_KEY = "CorrectAnswers.txt",
-                   STUDENT_KEY = "StudentAnswers.txt";
+ const string STUDENT_FILE = "CorrectAnswers.txt",
+              ANSWER_KEY_FILE = "StudentAnswers.txt";
 				   
 const int NUMBER_OF_QUESTIONS = 20;
 
@@ -22,25 +22,27 @@ void retrieveData(vector<char> &vectorName, string fileName) {
 	
 	char data;
 	
-	ifstream inputFile("ANSWER_KEY");
+	ifstream inputFile(fileName);
 	
 	if (inputFile) {
-		cout << "File open successfully.\n";
+		cout << "File " << fileName << " open successfully.\n";
 		while (inputFile >> data) {
-		vectorName.push_back(data);
+		  vectorName.push_back(data);
+		}
 	} else {
-		cout << "Error opening file.\n";
+		cout << "Error opening file " << fileName <<  endl;;
+		exit(1);
 	}
 	
 	inputFile.close();
 }
 
-// This method will display student's incorrect answer and the correct answer based on answer key
+// This method will display student's incorrect answer and the correct answer next to it based on answer key
 void displayIncorrect(const vector<char> studentAnswer, const vector<char> key) {
 	cout << "\nList of questions missed:\n";
 	for (int count = 0; count < NUMBER_OF_QUESTIONS; count ++) {
 		if (studentAnswer[count] != key[count]) {
-			cout  << "Question " << count << " : your answer " << studentAnswer[count] << ", correct answer " << key[count] << ".\n";
+			cout  << "Question " << count + 1 << " : your answer " << studentAnswer[count] << ", correct answer " << key[count] << ".\n";
 		}
 	}
 }
@@ -49,7 +51,7 @@ void displayIncorrect(const vector<char> studentAnswer, const vector<char> key) 
 int caclIncorrect(const vector<char> studentAnswer, const vector<char> key) {
 	int totalIncorrect = 0;
 	for (int count = 0; count < NUMBER_OF_QUESTIONS; count++) {
-		if studentAnswer[count] != key[count] {
+		if (studentAnswer[count] != key[count]) {
 			totalIncorrect++;
 		}
 	}
@@ -57,6 +59,7 @@ int caclIncorrect(const vector<char> studentAnswer, const vector<char> key) {
 	return (totalIncorrect);
 }
 
+// This method return true if argument  is 70 or greater. Otherwise, return false.
 bool isPassed(int percentage) {
 	if (percentage >= 70) {
 		return (true);
@@ -64,21 +67,22 @@ bool isPassed(int percentage) {
 		return (false);
 	}
 }
+
 int main() {
 	
 	vector<char> studentAnswer;
 	vector<char> correctAnswer;
 	
-	retrieveData(studentAnswer, STUDENT_KEY);
-	retrieveData(correctAnswer, ANSWER_KEY);
+	retrieveData(studentAnswer, STUDENT_FILE);
+	retrieveData(correctAnswer, ANSWER_FILE);
 	
-	void displayIncorrect(studentAnswer, correctAnswer);
+	displayIncorrect(studentAnswer, correctAnswer);
 	
-	int incorrects = calcIncorrect(studentAnswer, correctAnswer);
+	int incorrects = caclIncorrect(studentAnswer, correctAnswer);
 	cout << "Total number of question missed: " << incorrects << endl;
 	
-	float percentage = static_cast<float>(incorrects) / NUMBER_OF_QUESTIONS;
-    cout << "The percentage of question answered correctly: " << percentage << endl;
+	float percentage = (static_cast<float>(NUMBER_OF_QUESTIONS - incorrects) / NUMBER_OF_QUESTIONS) * 100;
+  cout << "The percentage of question answered correctly: " << percentage << endl;
 	
 	if (isPassed(percentage)) {
 		cout << "Congratulation!. You passed the exam!\n";
