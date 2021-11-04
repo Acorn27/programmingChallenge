@@ -1,7 +1,7 @@
 /*
-This program store work pay information. It should create 4 array
+This program store work pay information. It should create 4 arrays
 that associated with each other:
-  + emID: store empoyee id number
+        + emID: store empoyee id number
 	+ hours: store employee worked hours( user's input)
 	+ payRate: employee pay rate( user's input)
 	+ wage: store employee wage(payRate * hours)
