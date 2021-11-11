@@ -12,7 +12,7 @@ This program should do the following task:
 #include <vector>
 using namespace std;
 
-const int NUMBER_OF_STUDENTS = 5,
+const int NUMBER_OF_STUDENTS = 2,
               NUMBER_OF_TEST = 4; 
 
 void  getName(vector<string> &studentName) {
@@ -27,14 +27,15 @@ void  getName(vector<string> &studentName) {
 void getScore(vector<vector<int> > &testScore, const vector<string> studentName) {
   int score;
   for (int student = 0; student < NUMBER_OF_STUDENTS; student++) {
+	cout << endl;
   vector<int> inner;
 	  for (int test = 0; test < NUMBER_OF_TEST; test++) {
-		  cout << "Enter test score of test " << test + 1 << " for " << studentName[student] << ": ";
+		  cout << "Enter test score " << test + 1 << " for " << studentName[student] << ": ";
 		  cin >> score;
 		  inner.push_back(score);
     }
     testScore.push_back(inner);
-    }
+  }
 }
 
 string returnGrade(const int average) {
@@ -51,6 +52,18 @@ string returnGrade(const int average) {
 	}
 }
 
+void dropLowest(vector<vector<int> > &testScore) {
+	for (int studentPos = 0; studentPos < testScore.size(); studentPos ++) {
+	  int lowestScore = testScore[studentPos][0];
+		int lowestPos = 0;
+		for (int testPos = 1; testPos < testScore[studentPos].size(); testPos++) {
+		  if (lowestScore > testScore[studentPos][testPos]) {
+			  lowestPos = testPos;
+		  }
+    }		
+	  testScore[studentPos][lowestPos] = 0;
+	}
+}
 
 void displayFinal(const vector<vector<int> > testScore, const vector<string> studentName) {
 	for (int studentPos = 0; studentPos < testScore.size(); studentPos++) {
@@ -60,7 +73,7 @@ void displayFinal(const vector<vector<int> > testScore, const vector<string> stu
 			total += testScore[studentPos][testPos];
 		}
 		average = total / testScore[studentPos].size();
-		cout << "Final Grade of  " << studentName[studentPos] << " is " << returnGrade(average) << " with the average of " << average << endl;
+		cout << "\nFinal Grade of  " << studentName[studentPos] << " is " << returnGrade(average) << " with the average of " << average << endl;
 	}
 }
 
@@ -73,6 +86,8 @@ int main() {
 
 	getName(studentName);
 	getScore(testScore, studentName);
+	
+	dropLowest(testScore);
 	
 	displayFinal(testScore, studentName);
 	
