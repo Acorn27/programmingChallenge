@@ -20,12 +20,12 @@ void generateRandomList(vector<int> &randomList) {
 	uniform_int_distribution<int> randomInt(0,9);
 	
 	for (int count = 0; count < SIZE; count++) {
-	    int randomNumber = randomInt(myEngine);
+	  int randomNumber = randomInt(myEngine);
 		randomList.push_back(randomNumber);
 	}
 }
 
-void getLUserList(vector<int> &userList) {
+void getUserList(vector<int> &userList) {
 	
 	string userInput;
 	do {
@@ -42,7 +42,7 @@ void getLUserList(vector<int> &userList) {
 		string element;
 		element = userInput[count];
 		int number = stoi(element);
-	    userList.push_back(number);
+	  userList.push_back(number);
 	}
 }
 
@@ -75,7 +75,7 @@ int main() {
 	vector<int> userNumbers;
 	
 	generateRandomList(grandPrize);
-	getLUserList(userNumbers);
+	getUserList(userNumbers);
 	
 	cout << "Our lucky number is: ";
 	displayList(grandPrize);
