@@ -18,17 +18,16 @@ using namespace std;
 const string nameFile = "Teams.txt";
 const string winnerFile = "WorldSeriesWinners.txt";
 
-// To Do: retrieve data from Teams.txt(should take 2 parameter, file name and string vector name)
-bool getList(vector<string>& teamsList, string fileName) {
+// To Do: retrieve data from file(should take 2 parameter, file name and string vector name)
+void getList(vector<string>& teamsList, string fileName) {
 
 	ifstream inputFile(fileName);
 
 	if (!inputFile) {
 		cout << "Error opening file named " << fileName << "\n";
-		return false;
 	}
 	else {
-		cout << "File open successfully\n";
+		cout << fileName << " has been opened successfully\n";
 		string Name;
 		int count = 0;
 		while (!inputFile.eof()) {
@@ -36,41 +35,38 @@ bool getList(vector<string>& teamsList, string fileName) {
 			teamsList.push_back(Name);
 			count++;
 		}
-		cout << count << " items has been successfully read from " << fileName << "\n";
+		cout << count << " items has been successfully read from " << fileName << "\n\n";
 		inputFile.close();
-		return true;
 	}
 
 }
 
 // To Do: display list of Teams(take string vector as parameter)
 void displayList(const vector<string> teamsList) {
+	
+	cout << "Major League Baseball Teans List\n";
 	for (unsigned index = 0; index < teamsList.size(); index++) {
 		cout << index << ". " << teamsList[index] << "\n";
 	}
 }
 
+// To Do: a final 2D vector that the inter vector
+// hold a list of year an index corresponding Team won world. The 2d vector should look like
+/* 
+{
+	{2001}  //  "Anaheim Angel" has won in 2001
+	{2002}	//  "Arizona Diamondbacks" has won in 2002
+	{1995}  //  "Atlanta Braves" has won in 2003
+}
 
-
-int main() {
-
-	// string vector than contain name of several Leagut basball teams
-	vector<string> TeamsList;
-	vector<string> winList;
-
-
-	getList(winList, winnerFile);
-	getList(TeamsList, nameFile);
-	
-	displayList(TeamsList);
-
-	vector<vector<int> > yearList;
-	for (unsigned i = 0; i < TeamsList.size(); i++) {
+*/
+void yearWin(vector<vector<int> > &yearList, const vector<string> teamsList, const vector<string> winList) {
+	for (unsigned i = 0; i < teamsList.size(); i++) {
 		vector<int> temp;
 
 		int year = 1903;
 		for (unsigned j = 0; j < winList.size(); j++) {
-			if (TeamsList[i] == winList[j]) {
+			if (teamsList[i] == winList[j]) {
 				temp.push_back(year);
 			}
 			if (year == 1903 || year == 1993) {
@@ -82,9 +78,30 @@ int main() {
 		}
 		yearList.push_back(temp);
 	}
+}
 
 
-	// call retrieve data vector , if true then call display function
+
+int main() {
+
+	// TeamsList vector to hold a list of major league baseball team
+	// winList vector to hold a chronogical list of team that won wirld series
+	vector<string> TeamsList;
+	vector<string> winList;
+
+  // retrieve data from file to vector for later use
+	getList(winList, winnerFile);
+	getList(TeamsList, nameFile);
+	
+	// display list for user to select
+	displayList(TeamsList);
+
+  // create 2D vector
+	vector<vector<int> > yearList;
+  
+	// call 2D vector creator fucntion
+	yearWin(yearList, TeamsList, winList);
+
 
 	cout << "\nPlease enter Team's Name or index: ";
 	string name;
@@ -113,10 +130,6 @@ int main() {
 			}
 		}
 	}
-
-
-
-
 
 	// notify and terminate program
 	cout << "\nDone!\n";
