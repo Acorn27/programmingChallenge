@@ -6,12 +6,13 @@ The program should repeat until the user is ready to quit
 */
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <random>
 
 using namespace std;
 
-const string supplementFile = "8_ball_responses.txt";
+const string SUPPLEMENT_FILE = "8_ball_responses.txt";
 
 // To Do : read data from file into vector
 // take 2 arguments: vector name and file name
@@ -55,11 +56,22 @@ string pickRandomResponse(const vector<string> randomResponseList) {
 }
 
 int main() {
-	do {
-		string idontcare;
-		string randomRes
-		cout << "Ask me anything you want (enter X to exit): ";
-		cin >> idontcare;
-		
+	
+	vector<string> randomResponseList;
+	if (!readFile(randomResponseList, SUPPLEMENT_FILE)) {
+	  return 1;
 	}
+	
+	string idontcare;
+	do {
+		cout << "\nAsk me anything you want (enter X to exit): ";
+		getline(cin, idontcare);
+		if (idontcare == "X") {
+			continue;
+		}
+		cout << pickRandomResponse(randomResponseList) << endl;
+	} while (idontcare != "X");
+	
+	cout << "\nDone!\n";
+	return 0;
 }
