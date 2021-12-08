@@ -17,12 +17,18 @@ int main() {
 	cout << "Enter your checking account number: ";
 	cin >> userAccountNum;
 	
+	bool isValid = false;
 	for (int sample : accoutNumber) {
 		if (userAccountNum == sample) {
-			cout << "Authorized\n";
-		} else {
-			cout << "Invalid Account Number\n";
+			isValid = true;
+			break;
 		}
+	}
+	
+	if (isValid) {
+		cout << "\nAuthorized transaction!\n";
+	} else {
+		cout << "\nInvalid account number!\n";
 	}
 	
 	cout << "\nDone!\n";
