@@ -1,3 +1,4 @@
+
 /*
 Write a program that dynamically allocates an array large enough to hold a userdefined number of test scores. 
 Once all the scores are entered, the array should be passed to a function that sorts them in ascending order.
@@ -7,50 +8,76 @@ Use pointer notation rather than array notation whenever possible.
 Input Validation: Do not accept negative numbers for test scores.
 */
 
+/*
+Note:
++ getline only work with string
++ keyboard buffer does not clear after program exit (there is a probability that it still store '\n' character from last run
++ used pointer as array without allocating memory with NEW can leed to "program has stopped"
++ new syntax getline(cin, varibale, <seperate character>) seperate character used to stop cin from reading the whole input
++ we can used reference with pointer in order to change content of pointer
+*/
+
 #include <iostream>
+#include <string>
+#include <iomanip>
 using namespace std;
 
-// fill pointer
-int* fillPtr(int* ptr, const int size) {
+
+// fill pointer function, I used referenced to change both pointer containt
+// instead of returning a single pointer
+void fillPtr(int* &ptr, string* &name, const int size) {
+	cout << "\nEnter Student's Full Name followed by Test score\n";
+	cout << "Ex: Chris Hanson-80\n";
+	string fullName;
+	int score;
 	for (int index = 0; index < size; index++) {
 		do {
-			cout << "Enter test score #" << index + 1 << ": ";
-			if (!(cin >> ptr[index])) {
-				cout << "Please enter numbers only!\n";
-			} else if (ptr[index] < 0) {
+			cout << "Student #" << index + 1 << ": ";
+			cin.clear();
+			cin.ignore(1000, '\n');
+			string firstName, lastName, fullName;
+			getline(cin, firstName, ' ');
+			getline(cin, lastName, ' ');
+			fullName = firstName + ' ' + lastName;
+			cin >> score;
+			if (score < 0) {
 				cout << "Test score entered can not less than 0\n";
-			} else {
+			} 
+			else {
+				ptr[index] = score;
+				name[index] = fullName;
 				break;
 			}
 		} while (true);
 	}
-	
-	return (ptr);
 }
 
-// sort pointer
-int* selectionSort(int* ptr, const int size) {
+// sort pointer function
+void selectionSort(int* &ptr, string* &name, int size) {
 	for (int start = 0; start < size - 1; start++) {
-		int minIndex = start;
-		int minValue = ptr[start];
-		for (int index = start +1; index < size; index++) {
-			if (ptr[index] < minValue) {
-				minValue = ptr[index];
-				minIndex = index;
+		int maxIndex = start;
+		int maxValue = ptr[start];
+		for (int index = start + 1; index < size; index++) {
+			if (ptr[index] > maxValue) {
+				maxValue = ptr[index];
+				maxIndex = index;
 			}
 		}
-		
-		ptr[minIndex] = ptr[start];
-		ptr[start] = minValue;
+
+		ptr[maxIndex] = ptr[start];
+		ptr[start] = maxValue;
+		string temp = name[maxIndex];
+		name[maxIndex] = name[start];
+		name[start] = temp;
 	}
-	
-	return (ptr);
+
 }
 
-// display pointer
-void displayPtr(const int* ptr, const int size) {
+// display sorted result: student's name followed by score
+void displayPtr(const int* ptr, const string* name, const int size) {
+	cout << "\nSorted list of student score\n";
 	for (int index = 0; index < size; index++) {
-		cout << ptr[index] << endl;
+		cout << name[index] << "\t\t" << ptr[index] << endl;
 	}
 }
 
@@ -60,46 +87,60 @@ void displayAverage(int* ptr, const int size) {
 	for (int index = 1; index < size; index++) {
 		total += ptr[index];
 	}
-	cout << "\nAverage score of student: " << total / (size - 1) << endl;
+	if (size == 1) {
+		cout << "\nAverage score of student: " << total << endl;
+	}
+	else {
+		cout << "\nAverage score of student: " << total / (size - 1) << endl;
+	}
 }
 
 
 int main() {
 	// number of test score
 	int testsNumber = 0;
+	string* name = nullptr;
 	int* ptr = nullptr;
-	
+
 	do {
 		cout << "Enter number of test: ";
 		if (!(cin >> testsNumber)) {
 			cout << "Please enter numbers only!\n";
-		} else if (testsNumber <= 0) {
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+		else if (testsNumber <= 0) {
 			cout << "Please enter positive number only!\n";
-		} else {
+		}
+		else {
 			break;
 		}
 	} while (true);
-	
+
 	// pointer point to array
 	ptr = new int[testsNumber];
-	
+
+	// declare pointer point to string array
+	name = new string[testsNumber];
+
 	// Call filll pointer function
-	ptr = fillPtr(ptr, testsNumber);
-	
+    fillPtr(ptr, name, testsNumber);
+
 	// sort pointer
-	ptr = selectionSort(ptr, testsNumber);
-	
+	selectionSort(ptr, name, testsNumber);
+
 	// display sorted pointer
-	cout << "\nScore list in ascending order: \n";
-	displayPtr(ptr, testsNumber);
-	
+	displayPtr(ptr, name, testsNumber);
+
 	// display Average
 	displayAverage(ptr, testsNumber);
 
-	
-	delete [] ptr;
+
+	delete[] ptr;
+	delete[] name;
+	name = nullptr;
 	ptr = nullptr;
-	
+
 	cout << "\nDone\n";
 	return 0;
 }
