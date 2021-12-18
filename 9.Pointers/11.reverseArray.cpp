@@ -12,6 +12,11 @@ The function should return a pointer to the new array.
 // Moreover, it does make sence to create a new array to store data when we
 // already has an existed pointer to do that task.
 
+// Proper way
+// Crate a function that create a pointer point to array inside that fucntion
+// return the pointer 
+// in the main function: create another poiner then asign to the created function
+// delte that pointer after used;
 
 #include <iostream>
 #include <memory>
