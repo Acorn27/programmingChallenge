@@ -1,0 +1,320 @@
+
+#include <cctype> need to include when using isupper() and islower()
+Inside of isupper() and islower() can be a character 'c' or a character variable
+Beside of these 2 member function, we also have isdigit():  which return true if char is a number
+isalpha(): return true if char is in alphabet
+
+c string is a string that store in char array
+
+#include <cstring> is need when using c string, with is different from normal string
+Define cstring: 
+  char name[] = "This is a random sentences."
+can use subscript to access each element of c string
+
+#include<cstring> also critical when using cstring member function
+Ex: int length
+    length = strlen(something);
+something must be one of the following:
+  + a name of the array holding the ctring
+	  Ex: char name[] = "I am a Crab"; then something can be name
+	+ A pointer variable that hold address of C string
+	  Ex: char* ptr = name; then something can be ptr
+		IMPORTANT: strlen() do not accept nornal string variable
+	+ a literal string
+Reason: strlen() or cstring menber function as general only access address;
+	
+strcat: Concatenates, or appends one string to another
+Ex:
+  const int size = 13;
+  char string1[size] = "Hello ";
+  char string2[] = "World!";
+  strcat(string1, strin2);
+  cout << string1 << endl;
+Result: Hello World
+Note:
+  + it is the programmer's responsibility to make sure there is a white space between two string
+	+ size of string1 must large enough to hold both string after concatenation
+	+ Algorith to make sure we have enough space:
+	____________________________________________________________________
+	  if (sizeof(string1) >= (strlen(string1) + strlen(string2) + 1)) {
+		  strcat(string1, string2);
+		} else {
+		  cout << "String1 is not large enough for both string.\n";
+		}
+  _____________________________________________________________________
+	Explain: We use sizeof() at the beginnign because if return the size of string1 in byte, also each character occupies one byte to it make sense here
+	         strlen() return the number of character that c string hold, which not include null character at the end of the concatenated string, but sizeof() include null
+					 that is why whe have to add 1 in the left of the operator.
+
+
+strcpy: member function used to coppy one string to another, which normal array cannot do, overide if string1 is already stored something.
+Ex: 
+const int SIZE = 10; 
+char string1[SIZE] = "Hello", string2[SIZE] = "World!"; 
+cout << string1 << endl; 
+cout << string2 << endl; 
+strcpy(string1, string2); 
+cout << string1 << endl; 
+cout << string2 << endl; 
+Output:
+Hello 
+World! 
+World! 
+World!
+
+
+Use strncat() and strncpy instead of strcat and strcpy
+strncat():
+int maxChars; 
+const int SIZE_1 = 17; 
+const int SIZE_2 = 18; 
+ 
+char string1[SIZE_1] = "Welcome "; 
+char string2[SIZE_2] = "to North Carolina"; 
+ 
+cout << string1 << endl; 
+cout << string2 << endl; 
+maxChars = sizeof(string1) − (strlen(string1) + 1); 
+strncat(string1, string2, maxChars); 
+cout << string1 << endl; 
+strncpy():
+int maxChars; 
+const int SIZE = 11; 
+ 
+char string1[SIZE]; 
+char string2[] = "I love C++ programming!"; 
+ 
+maxChars = sizeof(string1) − 1; 
+strncpy(string1, string2, maxChars); 
+// Put the null terminator at the end. 
+string1[maxChars] = '\0'; Because strncpy do not automatically place null terminator if maxChars is less than or equal lenght
+cout << string1 << endl; 
+
+strstr(string1, string2): searches for a string inside a string. First argument is the string to be searches, second argument
+is the string for which to looks. If found, it return the ADDRESS of the occurrence of the second string within the first string.
+Otherwise, it return null.
+Ex program:
+// This program uses the strstr function to search an array. 
+#include <iostream> 
+#include <cstring> // For strstr 
+using namespace std; 
+ 
+int main() 
+{ 
+    // Constants for array lengths 
+    const int NUM_PRODS = 5; // Number of products 
+    const int LENGTH = 27;   // String length 
+ 
+    // Array of products 
+
+    char lookUp[LENGTH];     // To hold user's input 
+    char *strPtr = nullptr;  // To point to the found product 
+    int index;               // Loop counter 
+ 
+    // Prompt the user for a product number. 
+    cout << "\tProduct Database\n\n"; 
+    cout << "Enter a product number to search for: "; 
+    cin.getline(lookUp, LENGTH); 
+ 
+    // Search the array for a matching substring 
+    for (index = 0; index < NUM_PRODS; index++)     // This is important, we dont use int index becuase it will make index become local variable 
+    {                                               // and it won't be accessebale outside of its scope.
+        strPtr = strstr(products[index], lookUp); 
+        if (strPtr != nullptr) 
+            break; 
+    } 
+ 
+    // If a matching substring was found, display the product info. 
+    if (strPtr != nullptr) 
+        cout << products[index] << endl; 
+    else 
+        cout << "No matching product was found.\n"; 
+ 
+    return 0; 
+}
+
+strcmp: The function takes two C-strings as parameters (actually, pointers to C-strings) and returns an integer result. The value of the result is set accordingly:
+  The result is zero if the two strings are equal on a character-by-character basis.
+  The result is negative if string1 comes before string2 in alphabetical order.
+  The result is positive if string1 comes after string2 in alphabetical order.
+Ex 1:
+// This program tests two C-strings for equality 
+// using the strcmp function. 
+#include <iostream> 
+#include <string> 
+using namespace std; 
+int main() 
+{ 
+    // Two arrays for two strings. 
+    const int LENGTH = 40; 
+    char firstString[LENGTH], secondString[LENGTH]; 
+ 
+    // Read two strings. 
+    cout << "Enter a string: "; 
+    cin.getline(firstString, LENGTH); 
+    cout << "Enter another string: "; 
+    cin.getline(secondString, LENGTH); 
+ 
+    // Compare the strings for equality with strcmp. 
+    if (strcmp(firstString, secondString) == 0) 
+       cout << "You entered the same string twice.\n"; 
+    else 
+       cout << "The strings are not the same.\n"; 
+ 
+    return 0; 
+} 
+Ex 2:
+// This program uses strcmp to compare the string entered 
+// by the user with the valid MP3 player part numbers. 
+#include <iostream> 
+#include <cstring> 
+#include <iomanip> 
+using namespace std; 
+ 
+int main() 
+{ 
+    // Price of parts. 
+    const double A_PRICE = 99.0, 
+                 B_PRICE = 199.0; 
+ 
+   // Character array for part number. 
+   const int PART_LENGTH = 9; 
+   char partNum[PART_LENGTH]; 
+ 
+   // Instruct the user to enter a part number. 
+   cout << "The MP3 player part numbers are:\n" 
+        << "\t16 Gigabyte, part number S147–29A\n" 
+        << "\t32 Gigabyte, part number S147–29B\n" 
+        << "Enter the part number of the MP3 player you\n" 
+        << "wish to purchase: "; 
+ 
+   // Read a part number of at most 8 characters. 
+   cin >> partNum; 
+ 
+   // Determine what user entered using strcmp 
+   // and print its price. 
+   cout << showpoint << fixed << setprecision(2); 
+   if (strcmp(partNum, "S147–29A") == 0)           // if (!strcmp(firstString, secondString)) can be used for shorter because strcmp return 0, which also logical mean false.
+      cout << "The price is $" << A_PRICE << endl; 
+   else if (strcmp(partNum, "S147–29B") == 0) 
+      cout << "The price is $" << B_PRICE << endl; 
+   else 
+      cout << partNum << " is not a valid part number.\n"; 
+   return 0; 
+}
+
+Summary:
+strlen﻿	Accepts a C-string or a pointer to a C-string as an argument. Returns the length of the C-string (not including the null terminator.)
+
+Example Usage: len = strlen(name);
+strcat	Accepts two C-strings or pointers to two C-strings as arguments. The function appends the contents of the second string to the first C-string. (The first string is altered, the second string is left unchanged.)
+
+Example Usage: strcat(string1, string2);
+strcpy	Accepts two C-strings or pointers to two C-strings as arguments. The function copies the second C-string to the first C-string. The second C-string is left unchanged.
+
+Example Usage: strcpy(string1, string2);
+strncat	Accepts two C-strings or pointers to two C-strings, and an integer argument. The third argument, an integer, indicates the maximum number of characters to copy from the second C-string to the first C-string.
+
+Example Usage: strncat(string1, string2, n);
+strncpy	Accepts two C-strings or pointers to two C-strings, and an integer argument. The third argument, an integer, indicates the maximum number of characters to copy from the second C-string to the first C-string. If n is less than the length of string2, the null terminator is not automatically appended to string1. If n is greater than the length of string2, string1 is padded with ‘\0’ characters.
+
+Example Usage: strncpy(string1, string2, n);
+strcmp	Accepts two C-strings or pointers to two C-strings arguments. If string1 and string2 are the same, this function returns 0. If string2 is alphabetically greater than string1, it returns a negative number. If string2 is alphabetically less than string1, it returns a positive number.
+
+Example Usage: if (strcmp(string1, string2))
+strstr	Accepts two C-strings or pointers to two C-strings as arguments. Searches for the first occurrence of string2 in string1. If an occurrence of string2 is found, the function returns a pointer to it. Otherwise, it returns nullptr (address 0).
+
+
+String/numberic conversion function:
+
+
+C-String/Numeric Conversion Functions in <cstdlib>
+atoi: Accepts a C-string as an argument. The function converts the C-string to an integer and returns that value.
+Example Usage: int num = atoi("4569");
+
+atol: Accepts a C-string as an argument. The function converts the C-string to a long integer and returns that value.
+Example Usage: long lnum = atol("500000");
+
+atof﻿: Accepts a C-string as an argument. The function converts the C-string to a double and returns that value.
+Example Usage: double fnum = atof("3.14159");﻿
+
+
+
+string to Number Functions
+Function	Description
+stoi(string str)	Accepts a string argument and returns that argument’s value converted to an int.
+
+stol(string str)	Accepts a string argument and returns that argument’s value converted to a long.
+
+stoul(string str)	Accepts a string argument and returns that argument’s value converted to an unsigned long.
+
+stoll(string str)	Accepts a string argument and returns that argument’s value converted to a long long.
+
+stoull(string str)	Accepts a string argument and returns that argument’s value converted to an unsigned long long.
+
+stof(string str)	Accepts a string argument and returns that argument’s value converted to a float.
+
+stod(string str)	Accepts a string argument and returns that argument’s value converted to a double.
+
+﻿stold(string str)﻿	Accepts a string argument and returns that argument’s value converted to a long double.
+
+
+To string function: 
+to_string(int value);	Accepts an int argument and returns that argument converted to a string object.
+to_string(long value);	Accepts a long argument and returns that argument converted to a string object.
+to_string(long long value);	Accepts a long long argument and returns that argument converted to a string object.
+to_string(unsigned value);﻿	Accepts an unsigned argument and returns that argument converted to a string object.
+to_string(unsigned long value);	Accepts an unsigned long argument and returns that argument converted to a string object.
+to_string(unsigned long long value);	Accepts an unsigned long long argument and returns that argument converted to a string object.
+to_string(float value);	Accepts a float argument and returns that argument converted to a string object.
+to_string(double value);	Accepts a double argument and returns that argument converted to a string object.
+to_string(long double value);	Accepts a long double argument and returns that argument converted to a string object.﻿
+
+Example:
+int number = 99; 
+string output = to_string(number); 
+
+Better way to get input without worry about cin.ignore() and cin.clear(): 
+// This program demonstrates how the getline function can 
+// be used for all of a program's input. 
+#include <iostream> 
+#include <string> 
+#include <iomanip> 
+using namespace std; 
+ 
+int main() 
+{ 
+   string input;   // To hold a line of input 
+   string name;    // To hold a name 
+   int idNumber;   // To hold an ID number. 
+   int age;        // To hold an age 
+   double income;  // To hold income 
+ 
+   // Get the user's ID number. 
+   cout << "What is your ID number? "; 
+   getline(cin, input);     // Read as a string 
+   idNumber = stoi(input);  // Convert to int 
+ 
+   // Get the user's name. No conversion necessary. 
+   cout << "What is your name? "; 
+   getline(cin, name); 
+ 
+   // Get the user's age. 
+   cout << "How old are you? "; 
+   getline(cin, input);  // Read as a string 
+   age = stoi(input);    // Convert to int 
+ 
+   // Get the user's income. 
+   cout << "What is your annual income? "; 
+   getline(cin, input);   // Read as a string 
+   income = stod(input);  // Convert to double 
+ 
+   // Show the resulting data. 
+   cout << setprecision(2) << fixed << showpoint; 
+   cout << "Your name is " << name 
+        <<", you are " << age 
+        << " years old,\nand you make $" 
+        << income << " per year.\n"; 
+ 
+   return 0; 
+} 
