@@ -90,6 +90,7 @@ strncpy(string1, string2, maxChars);
 string1[maxChars] = '\0'; Because strncpy do not automatically place null terminator if maxChars is less than or equal lenght
 cout << string1 << endl; 
 
+
 strstr(string1, string2): searches for a string inside a string. First argument is the string to be searches, second argument
 is the string for which to looks. If found, it return the ADDRESS of the occurrence of the second string within the first string.
 Otherwise, it return null.
@@ -317,4 +318,100 @@ int main()
         << income << " per year.\n"; 
  
    return 0; 
+}
+
+
+Using pointer to pass c-string argument: 
+// This program demonstrates a function, countChars, that counts 
+// the number of times a specific character appears in a string. 
+#include <iostream> 
+using namespace std; 
+ 
+int countChars(char *, char); // Function prototype 
+ 
+int main() 
+{ 
+    const int SIZE = 51;    // Array size 
+    char userString[SIZE];  // To hold a string 
+    char letter;            // The character to count 
+ 
+    // Get a string from the user. 
+    cout << "Enter a string (up to 50 characters): "; 
+    cin.getline(userString, SIZE); 
+ 
+    // Choose a character whose occurrences within the string will be counted. 
+    cout << "Enter a character and I will tell you how many\n"; 
+    cout << "times it appears in the string: "; 
+    cin >> letter; 
+ 
+    // Display the number of times the character appears. 
+    cout << letter << " appears "; 
+    cout << countChars(userString, letter) << " times.\n"; 
+    return 0; 
 } 
+ 
+//****************************************************************** 
+// Definition of countChars. The parameter strPtr is a pointer   * 
+// that points to a string. The parameter Ch is a character that * 
+// the function searches for in the string. The function returns * 
+// the number of times the character appears in the string.      * 
+//****************************************************************** 
+ 
+int countChars(char *strPtr, char ch) 
+{ 
+    int times = 0; // Number of times ch appears in the string 
+ 
+    // Step through the string counting occurrences of ch. 
+    while (*strPtr != '\0') 
+    { 
+        if (*strPtr == ch)  // If the current character equals ch... 
+            times++;        // ... increment the counter 
+        strPtr++;           // Go to the next char in the string. 
+    } 
+ 
+    return times; 
+} 
+
+Several way to initialize string object:
+Definition	Description
+string address;	Defines an empty string object named address.
+string name("William Smith");	Defines a string object named name, initialized with
+“William Smith.”
+string person1(person2);	Defines a string object named person1, which is a copy of person2. person2 may be either a string object or character array.
+string str1(str2, 5);	Defines a string object named str1, which is initialized to the first five characters in the character array str2.
+string lineFull('z', 10);	Defines a string object named lineFull initialized with 10 'z' characters.
+string firstName(fullName, 0, 7);	Defines a string object named firstName, initialized with a substring of the string fullName. The substring is seven characters long, beginning at position 0.
+
+
+Normal string member function	
+mystring.append(n, 'z')	Appends n copies of 'z' to mystring.
+mystring.append(str)	Appends str to mystring. str can be a string object or character array.
+mystring.append(str, n)	The first n characters of the character array str are appended to mystring.
+mystring.append(str, x, n)	n number of characters from str, starting at position x, are appended to mystring. If mystring is too small, the function will copy as many characters as possible.
+mystring.assign(n, 'z')	Assigns n copies of 'z' to mystring.
+mystring.assign(str)	Assigns str to mystring. str can be a string object or character array.
+mystring.assign(str, n)	The first n characters of the character array str are assigned to mystring.
+mystring.assign(str, x, n)	n number of characters from str, starting at position x, areassigned to mystring. If mystring is too small, the functionwill copy as many characters as possible.
+mystring.at(x)	Returns the character at position x in the string.
+mystring.back( )	Returns the last character in the string. (This member function was introduced in C++ 11.)
+mystring.begin( )	Returns an iterator pointing to the first character in the string. (For more information on iterators, see Chapter 16.)
+mystring.c_str( )	Converts the contents of mystring to a C-string, and returns a pointer to the C-string.
+mystring.capacity( )	Returns the size of the storage allocated for the string.
+mystring.clear( )	Clears the string by deleting all the characters stored in it.
+mystring.compare(str)	Performs a comparison like the strcmp function (see Chapter 4), with the same return values. str can be a string object or a character array.
+mystring.compare(x, n, str)	Compares mystring and str, starting at position x, and continuing for n characters. The return value is like strcmp﻿. str can be a string object or character array.
+mystring.copy(str, x, n)	Copies the character array str to mystring, beginning at position x, for n characters. If mystring is too small, the function will copy as many characters as possible.
+mystring.empty( )	Returns true if mystring is empty.
+mystring.end( )	Returns an iterator pointing to the last character of the string in mystring. (For more information on iterators, see Chapter 17.)
+mystring.erase(x, n)	Erases n characters from mystring, beginning at position x.
+mystring.find(str, x)	Returns the first position at or beyond position x where the string str is found in mystring. str may be either a string object or a character array.
+mystring.find('z', x)	Returns the first position at or beyond position x where 'z' is found in mystring. If 'z' is not found, the function returns the special value string::npos.
+mystring.front( )	Returns the first character in the string. (This member function was introduced in C++ 11.)
+mystring.insert(x, n, 'z')	Inserts 'z' n times into mystring at position x.
+mystring.insert(x, str)	Inserts a copy of str into mystring, beginning at position x. str may be either a string object or a character array.
+mystring.length( )	Returns the length of the string in mystring.
+mystring.replace(x, n, str)	Replaces the n characters in mystring beginning at position x with the characters in string object str.
+mystring.resize(n,  'z')	Changes the size of the allocation in mystring to n. If n is less than the current size of the string, the string is truncated to n characters. If n is greater, the string is expanded and 'z' is appended at the end enough times to fill the new spaces.
+mystring.size( )	Returns the length of the string in mystring.
+mystring.substr(x, n)	Returns a copy of a substring. The substring is n characters long and begins at position x of mystring.
+mystring.swap(str)	Swaps the contents of mystring with str.
