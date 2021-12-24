@@ -415,3 +415,11 @@ mystring.resize(n,  'z')	Changes the size of the allocation in mystring to n. If
 mystring.size( )	Returns the length of the string in mystring.
 mystring.substr(x, n)	Returns a copy of a substring. The substring is n characters long and begins at position x of mystring.
 mystring.swap(str)	Swaps the contents of mystring with str.
+
+Element in cstring has char datatype
+IMPORTANT: TO CONVERT FROM '4' TO 4. BECAUSE IN ASCII CODE DIGIT START AT 48 AND '0' HAS THE CODE OF 48
+
+we can not treat c string as a pointer because they are different
+we can not use str++ to move to next element of a cstring named str, unless it is passed into a function, then decayed into a pointer
+
+
