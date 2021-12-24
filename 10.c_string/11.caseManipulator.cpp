@@ -33,9 +33,8 @@ void lower(char* input) {
 
 void reverse(char* input) {
 	
-	char chr = *input;
 	
-	if (isupper(chr)) {
+	if (isupper(input[0])) {
 		lower(input);
 	} else {
 		upper(input);
