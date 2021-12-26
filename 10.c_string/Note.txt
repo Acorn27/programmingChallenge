@@ -421,5 +421,5 @@ IMPORTANT: TO CONVERT FROM '4' TO 4. BECAUSE IN ASCII CODE DIGIT START AT 48 AND
 
 we can not treat c string as a pointer because they are different
 we can not use str++ to move to next element of a cstring named str, unless it is passed into a function, then decayed into a pointer
-
+we can not use isupper(string[subscript]) -> proper way: char c = string[subscript] then isupper(c);
 
