@@ -15,10 +15,52 @@ Input Validation: Do not accept negative dollar amounts, or amounts over $10,000
 
 #include <iostream>
 #include <string>
+#include <iomanip>
 using namespace std;
 
-const int SIZE = 9
-string number[SIZE] = {"zero", "one", "two", "thee", "four", "five", "six", "seven", "eigth", "night", "ten"};
+const int SIZE = 9;
+
+string one[] = { "", "one ", "two ", "three ", "four ",
+                 "five ", "six ", "seven ", "eight ",
+                 "nine ", "ten ", "eleven ", "twelve ",
+                 "thirteen ", "fourteen ", "fifteen ",
+                 "sixteen ", "seventeen ", "eighteen ",
+                 "nineteen " };
+                 
+string ten[] = { "", "", "twenty ", "thirty ", "forty ",
+                 "fifty ", "sixty ", "seventy ", "eighty ",
+                 "ninety " };
+
+string numToWord(int n, string s) {
+    
+    string str = "";
+    
+    if (n > 19) {
+        str += ten[n / 10] + one[n % 10];
+    } else {
+        str += one[n];
+    }
+    
+    if (n) {
+        str += s;
+    }
+    
+    return str;
+}
+
+string convertToWords(int n) {
+    
+    string out;
+    
+    out += numToWord(((n / 1000) % 100), "thousand ");
+    
+    out += numToWord(((n / 100) % 10), "hundred ");
+    
+    out += numToWord((n % 100), "");
+		
+    return out;
+}
+
 
 int main() {
 	
@@ -45,6 +87,17 @@ int main() {
 		}
 		
 	} while (true);
+	
+	double fixpoint = (digit - int(digit)) * 100;
+	cout << "Fix point is: " << fixpoint << endl;
+	
+	// Display
+	cout << "\t\tDate: " << date << endl;
+	cout << "Pay to the Order of: " << payeeName;
+	cout << "\t$" << setprecision(2) << fixed << digit << endl;
+	cout << convertToWords(digit)  << "dollar" << " and " << convertToWords(fixpoint) << "cents.\n";
+	
+	
 	
 	
 	return 0;
