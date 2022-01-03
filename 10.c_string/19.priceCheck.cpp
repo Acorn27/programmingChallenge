@@ -61,7 +61,6 @@ string convertToWords(int n) {
     return out;
 }
 
-
 int main() {
 	
 	string payeeName, date, amountSpellOut, amount;
@@ -72,6 +71,7 @@ int main() {
 	cout << "Enter the date of the transaction (mm/dd/yyyy): ";
 	getline(cin, date);
 	
+	// get total amount deposit
 	double digit;
 	do {
 		
@@ -88,17 +88,37 @@ int main() {
 		
 	} while (true);
 	
-	double fixpoint = (digit - int(digit)) * 100;
-	cout << "Fix point is: " << fixpoint << endl;
+	
+	// get amount of cents
+	int fixpoint;
+	if (amount.find(".") == string::npos) {
+		fixpoint = 0;
+	} else {
+		int pos = amount.find(".");
+		pos++;
+		string afterP = amount.substr(pos, amount.length() - pos);
+	  cout << "fixed point is: " << afterP << endl;
+	  fixpoint = stoi(afterP);
+	}
 	
 	// Display
-	cout << "\t\tDate: " << date << endl;
-	cout << "Pay to the Order of: " << payeeName;
-	cout << "\t$" << setprecision(2) << fixed << digit << endl;
-	cout << convertToWords(digit)  << "dollar" << " and " << convertToWords(fixpoint) << "cents.\n";
+	cout << "\tDate: " << date << endl;
+	cout << "Pay to the Order of: " << payeeName << endl;
+	cout << "Amount: $" << setprecision(2) << fixed << digit << endl;
 	
-	
-	
+	//display spelled amount
+	string finalAmount;
+	finalAmount += convertToWords(digit);
+	finalAmount += "dollars";
+	if (fixpoint != 0) {
+		finalAmount += " and ";
+		finalAmount += convertToWords(fixpoint);
+		finalAmount += "cents.";
+	} else {
+		finalAmount += ".";
+	}	
+	finalAmount[0] = toupper(finalAmount[0]);
+	cout  << finalAmount << endl;
 	
 	return 0;
 	
