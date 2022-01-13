@@ -1,0 +1,31 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+enum Day { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY }; 
+An enumerated type declaration begins with the key word enum, followed by the name of the type, followed by a list of identifiers inside braces, and is terminated with a semicolon.
+NOTE: enumerator should be written in all uppercase letter because they represent constant variable.
+
+Defines workDay as a variable of the Day type:
+
+day workDay;
+cout  << MONDAY << endl << TUESDAY << endl  
+      << WEDNESDAY << endl << THURSDAY << endl 
+      << FRIDAY << endl; 
+This statement will produce the following output:
+
+0 
+1 
+2 
+3 
+4 
+workDay = 3; // error
+workday = static_cast<Day>(3);  // legal
+workDay = THURSDAY;  // also legal, equivalent to the previous statement
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+When this code runs, it will display 3. You can also assign a variable of an enumerated type to an integer variable, as shown here:
+Day workDay = FRIDAY; 
+int x = workDay;  
+cout << x << endl; 
+ 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
